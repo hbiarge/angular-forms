@@ -22,7 +22,7 @@
                                ng-model="ctrl.data.colorCode"
                                minlength="6"
                                required />
-                        <div class="error" ng-if="myForm01.colorCode.$touched">
+                        <div class="error" ng-if="myForm01.colorCode.$touched" role="alert">
                             <div ng-if="myForm01.colorCode.$error.required">Required</div>
                             <div ng-if="myForm01.colorCode.$error.minlength">Should have min lenght of 6</div>
                         </div>
@@ -43,7 +43,7 @@
                                minlength="6"
                                required />
                         <div class="error"
-                             ng-if="myForm02.$submitted || myForm02.colorCode.$touched">
+                             ng-if="myForm02.$submitted || myForm02.colorCode.$touched" role="alert">
                             <div ng-if="myForm02.colorCode.$error.required">Required</div>
                             <div ng-if="myForm02.colorCode.$error.minlength">Should have min lenght of 6</div>
                         </div>
@@ -63,9 +63,7 @@
                                ng-model="ctrl.data.colorCode"
                                minlength="6"
                                required />
-                        <div class="error"
-                             ng-messages="myForm03.colorCode.$error"
-                             ng-if="myForm03.$submitted || myForm03.colorCode.$touched">
+                        <div ng-messages="myForm03.colorCode.$error" class="error" role="alert">
                             <div ng-message="required">Required</div>
                             <div ng-message="minlength">Should have min lenght of 6</div>
                         </div>
@@ -85,12 +83,13 @@
                                ng-model="ctrl.data.colorCode"
                                minlength="6"
                                required />
-                        <div class="error"
-                             ng-messages="myForm04.colorCode.$error"
-                             ng-if="myForm04.$submitted || myForm04.colorCode.$touched"
-                             ng-messages-include="Messages.html">
+                        <div ng-messages="myForm04.colorCode.$error" class="error" role="alert">
+                            <div ng-message-exp="ctrl.errorMessage.type">
+                                {{ctrl.errorMessage.text}}
+                            </div>
                             <!-- overrides the min message from the include -->
-                            <span ng-message="minlength">Should have min lenght of 6</span>
+                            <div ng-message="minlength">Should have min lenght of 6</div>
+                            <div ng-messages-include="Messages.html"></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -112,6 +111,10 @@
             var vm = this;
             vm.data = {
                 colorCode: ''
+            };
+            vm.errorMessage = {
+                type: 'required',
+                text: 'Required from exp'
             };
         });
     </script>
