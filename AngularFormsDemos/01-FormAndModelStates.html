@@ -14,16 +14,18 @@
             <form name="userForm" ng-submit="ctrl.submit(userForm.$valid, ctrl.data)" novalidate>
                 <fieldset>
                     <div class="form-group">
-                        <label for="firstName">Name</label>
+                        <label for="firstName">First name</label>
                         <input type="text"
+                               id="firstName"
                                name="firstName"
                                class="form-control"
                                ng-model="ctrl.user.firstName"
                                required />
                     </div>
                     <div class="form-group">
-                        <label for="lastName">Name</label>
+                        <label for="lastName">Last name</label>
                         <input type="text"
+                               id="lastName"
                                name="lastName"
                                class="form-control"
                                ng-model="ctrl.user.lastName"
@@ -34,81 +36,73 @@
             </form>
             <div class="row">
                 <section class="col-md-4">
-                    <h4>Pristine-Dirty</h4>
+                    <h4>Form</h4>
                     <div class="panel panel-default">
                         <div class="panel-body">
+                            <strong>Pristine-Dirty</strong>
+                            <a ng-click="userForm.$setPristine()">setPristine</a> |
+                            <a ng-click="userForm.$setDirty()">setDirty</a><br /><br />
                             <span ng-class="ctrl.classFomValue(userForm.$pristine)">userForm.$pristine = {{userForm.$pristine}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.$dirty)">userForm.$dirty = {{userForm.$dirty}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.$submitted)">userForm.$submitted = {{userForm.$submitted}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.firstName.$pristine)">userForm.firstName.$pristine = {{userForm.firstName.$pristine}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.firstName.$dirty)">userForm.firstName.$dirty = {{userForm.firstName.$dirty}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.lastName.$pristine)">userForm.lastName.$pristine = {{userForm.lastName.$pristine}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.lastName.$dirty)">userForm.lastName.$dirty = {{userForm.lastName.$dirty}}</span><br />
-                        </div>
-                    </div>
-                    <div>
-                        Form:
-                        <button class="btn" ng-click="userForm.$setPristine()">setPristine</button>
-                        <button class="btn" ng-click="userForm.$setDirty()">setDirty</button>
-                        <button class="btn" ng-click="userForm.$setSubmitted()">setSubmitted</button>
-                    </div>
-                    <div>
-                        FirstName:
-                        <button class="btn" ng-click="userForm.firstName.$setPristine()">setPristine</button>
-                        <button class="btn" ng-click="userForm.firstName.$setDirty()">setDirty</button>
-                    </div>
-                    <div>
-                        LastName:
-                        <button class="btn" ng-click="userForm.lastName.$setPristine()">setPristine</button>
-                        <button class="btn" ng-click="userForm.lastName.$setDirty()">setDirty</button>
-                    </div>
-                </section>
-                <section class="col-md-4">
-                    <h4>Valid-Invalid</h4>
-                    <div class="panel panel-default">
-                        <div class="panel-body">
+                            <span ng-class="ctrl.classFomValue(userForm.$dirty)">userForm.$dirty = {{userForm.$dirty}}</span><br /><br />
+                            <strong>Valid-Invalid</strong><br />
                             <span ng-class="ctrl.classFomValue(userForm.$valid)">userForm.$valid = {{userForm.$valid}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.$invalid)">userForm.$invalid = {{userForm.$invalid}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.firstName.$valid)">userForm.firstName.$valid = {{userForm.firstName.$valid}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.firstName.$invalid)">userForm.firstName.$invalid = {{userForm.firstName.$invalid}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.lastName.$valid)">userForm.lastName.$valid = {{userForm.lastName.$valid}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.lastName.$invalid)">userForm.lastName.$invalid = {{userForm.lastName.$invalid}}</span>
+                            <span ng-class="ctrl.classFomValue(userForm.$invalid)">userForm.$invalid = {{userForm.$invalid}}</span><br /><br />
+                            <strong>Touched-Untouched</strong>
+                            <a ng-click="userForm.$setUntouched()">setUntouched</a><br /><br />
+                            <strong>Submitted</strong>
+                            <a ng-click="userForm.$setSubmitted()">setSubmitted</a><br />
+                            <span ng-class="ctrl.classFomValue(userForm.$submitted)">userForm.$submitted = {{userForm.$submitted}}</span><br /><br />
+                            <pre>error = {{userForm.$error | json}}</pre>
+                            <pre>pending = {{userForm.$pending | json}}</pre>
                         </div>
-                    </div>
-                    <div>
-                        FirstName:
-                        <button class="btn" ng-click="userForm.firstName.$setValidity('required', true)">setValid</button>
-                        <button class="btn" ng-click="userForm.firstName.$setValidity('required', false)">setInvalid</button>
-                    </div>
-                    <div>
-                        LastName:
-                        <button class="btn" ng-click="userForm.lastName.$setValidity('required', true)">setValid</button>
-                        <button class="btn" ng-click="userForm.lastName.$setValidity('required', false)">setInvalid</button>
                     </div>
                 </section>
                 <section class="col-md-4">
-                    <h4>Touched-Untouched</h4>
+                    <h4>First name</h4>
                     <div class="panel panel-default">
                         <div class="panel-body">
+                            <strong>Pristine-Dirty</strong>
+                            <a ng-click="userForm.firstName.$setPristine()">setPristine</a> |
+                            <a ng-click="userForm.firstName.$setDirty()">setDirty</a>
+                            <span ng-class="ctrl.classFomValue(userForm.firstName.$pristine)">userForm.firstName.$pristine = {{userForm.firstName.$pristine}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.firstName.$dirty)">userForm.firstName.$dirty = {{userForm.firstName.$dirty}}</span><br /><br />
+                            <strong>Valid-Invalid</strong>
+                            <a ng-click="userForm.firstName.$setValidity('required', true)">setValid</a> |
+                            <a ng-click="userForm.firstName.$setValidity('required', false)">setInvalid</a><br />
+                            <span ng-class="ctrl.classFomValue(userForm.firstName.$valid)">userForm.firstName.$valid = {{userForm.firstName.$valid}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.firstName.$invalid)">userForm.firstName.$invalid = {{userForm.firstName.$invalid}}</span><br /><br />
+                            <strong>Touched-Untouched</strong>
+                            <a ng-click="userForm.firstName.$setUntouched()">setUntouched</a> |
+                            <a ng-click="userForm.firstName.$setTouched()">setTouched</a>
                             <span ng-class="ctrl.classFomValue(userForm.firstName.$touched)">userForm.firstName.$touched = {{userForm.firstName.$touched}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.firstName.$untouched)">userForm.firstName.$untouched = {{userForm.firstName.$untouched}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.lastName.$touched)">userForm.lastName.$touched = {{userForm.lastName.$touched}}</span><br />
-                            <span ng-class="ctrl.classFomValue(userForm.lastName.$untouched)">userForm.lastName.$untouched = {{userForm.lastName.$untouched}}</span>
+                            <span ng-class="ctrl.classFomValue(userForm.firstName.$untouched)">userForm.firstName.$untouched = {{userForm.firstName.$untouched}}</span><br /><br />
+                            <pre>error = {{userForm.firstName.$error | json}}</pre>
+                            <pre>pending = {{userForm.firstName.$pending | json}}</pre>
                         </div>
                     </div>
-                    <div>
-                        Form:
-                        <button class="btn" ng-click="userForm.$setUntouched()">form setUntouched</button>
-                    </div>
-                    <div>
-                        FirstName:
-                        <button class="btn" ng-click="userForm.firstName.$setUntouched()">setUntouched</button>
-                        <button class="btn" ng-click="userForm.firstName.$setTouched()">setTouched</button>
-                    </div>
-                    <div>
-                        LastName:
-                        <button class="btn" ng-click="userForm.lastName.$setUntouched()">setUntouched</button>
-                        <button class="btn" ng-click="userForm.lastName.$setTouched()">setTouched</button>
+                </section>
+                <section class="col-md-4">
+                    <h4>Last name</h4>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <strong>Pristine-Dirty</strong>
+                            <a ng-click="userForm.lastName.$setPristine()">setPristine</a> |
+                            <a ng-click="userForm.lastName.$setDirty()">setDirty</a>
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$pristine)">userForm.lastName.$pristine = {{userForm.lastName.$pristine}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$dirty)">userForm.lastName.$dirty = {{userForm.lastName.$dirty}}</span><br /><br />
+                            <strong>Valid-Invalid</strong>
+                            <a ng-click="userForm.lastName.$setValidity('required', true)">setValid</a> |
+                            <a ng-click="userForm.lastName.$setValidity('required', false)">setInvalid</a><br />
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$valid)">userForm.lastName.$valid = {{userForm.lastName.$valid}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$invalid)">userForm.lastName.$invalid = {{userForm.lastName.$invalid}}</span><br /><br />
+                            <strong>Touched-Untouched</strong>
+                            <a ng-click="userForm.lastName.$setUntouched()">setUntouched</a> |
+                            <a ng-click="userForm.lastName.$setTouched()">setTouched</a>
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$touched)">userForm.lastName.$touched = {{userForm.lastName.$touched}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$untouched)">userForm.lastName.$untouched = {{userForm.lastName.$untouched}}</span><br /><br />
+                            <pre>error = {{userForm.lastName.$error | json}}</pre>
+                            <pre>pending = {{userForm.lastName.$pending | json}}</pre>
+                        </div>
                     </div>
                 </section>
             </div>

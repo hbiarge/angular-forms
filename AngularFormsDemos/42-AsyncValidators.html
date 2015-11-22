@@ -19,6 +19,7 @@
                         <label for="favoriteNumber">Favorite number</label>
                         <div class="input-group">
                             <input type="number"
+                                   id="favoriteNumber"
                                    name="favoriteNumber"
                                    class="form-control"
                                    ng-model="profile.number"
@@ -29,6 +30,10 @@
                             </div>
                         </div>
                         <pre>number = <span ng-bind="profile.number | json"></span></pre>
+                        <pre>form valid = <span ng-bind="profileForm.$valid | json"></span></pre>
+                        <pre>input valid = <span ng-bind="profileForm.favoriteNumber.$valid | json"></span></pre>
+                        <pre>error = <span ng-bind="profileForm.favoriteNumber.$error | json"></span></pre>
+                        <pre>pending = <span ng-bind="profileForm.favoriteNumber.$pending | json"></span></pre>
                     </div>
 
                 </fieldset>

@@ -16,6 +16,7 @@
                     <div class="form-group">
                         <label for="favoriteColors">Colors</label>
                         <input type="text"
+                               id="favoriteColors"
                                name="favoriteColors"
                                class="form-control"
                                ng-model="profile.colors"
@@ -31,7 +32,7 @@
     <script>
 
         var app = angular.module('acheve', []);
-        app.directive('listToArray', function() {
+        app.directive('listToArray', function () {
 
             function modelToView(modelValue) {
                 if (modelValue) {
@@ -51,7 +52,7 @@
                     }
                 }
 
-                return splitted.map(function(item) {
+                return splitted.map(function (item) {
                     return item.trim();
                 });
             }
@@ -59,7 +60,7 @@
             return {
                 restrict: 'A',
                 require: 'ngModel',
-                link: function(scope, element, attributes, ngModel) {
+                link: function (scope, element, attributes, ngModel) {
 
                     //             VIEW--------------MODEL
                     // Formatters  [0.....<--------.....n] -> array.push to be the first invoked

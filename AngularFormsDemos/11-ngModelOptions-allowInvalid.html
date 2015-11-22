@@ -16,9 +16,10 @@
                     <div class="form-group">
                         <label for="rangeValue">Range</label>
                         <input type="number"
+                               id="rangeValue"
                                name="rangeValue"
                                ng-model="ctrl.range.value"
-                               ng-model-options="{ allowInvalid: false }"
+                               ng-model-options="{ allowInvalid: true }"
                                min="{{ctrl.range.unit.min}}"
                                max="{{ctrl.range.unit.max}}" />
                         <label class="radio-inline">

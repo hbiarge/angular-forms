@@ -1,4 +1,8 @@
-﻿.true {
+﻿a {
+    cursor: pointer;
+}
+
+.true {
     color: green;
 }
 

@@ -18,12 +18,14 @@
                     <div class="form-group">
                         <label for="favoriteNumber">Favorite number</label>
                         <input type="number"
+                               id="favoriteNumber"
                                name="favoriteNumber"
                                class="form-control"
                                ng-model="profile.number"
                                ng-model-options="{allowInvalid: false}"
                                required min="3" odd />
                         <pre>number = <span ng-bind="profile.number | json"></span></pre>
+                        <pre>error = <span ng-bind="profileForm.favoriteNumber.$error | json"></span></pre>
                     </div>
                 </fieldset>
                 <input type="submit" value="Save" />
