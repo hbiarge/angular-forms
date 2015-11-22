@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Form and model states</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/style.css" rel="stylesheet" />
+</head>
+<body ng-app="acheve">
+    <div class="container">
+        <header class="page-header" ng-controller="ContextController as ctx">
+            <h1>Form and model states <small>angularjs v{{ctx.version}}</small></h1>
+        </header>
+        <section ng-controller="ExampleController as ctrl">
+            <form name="userForm" ng-submit="ctrl.submit(userForm.$valid, ctrl.data)" novalidate>
+                <fieldset>
+                    <div class="form-group">
+                        <label for="firstName">Name</label>
+                        <input type="text"
+                               name="firstName"
+                               class="form-control"
+                               ng-model="ctrl.user.firstName"
+                               required />
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Name</label>
+                        <input type="text"
+                               name="lastName"
+                               class="form-control"
+                               ng-model="ctrl.user.lastName"
+                               required />
+                    </div>
+                    <input type="submit" class="btn btn-default" ng-disabled="userForm.$invalid" value="Send" />
+                </fieldset>
+            </form>
+            <div class="row">
+                <section class="col-md-4">
+                    <h4>Pristine-Dirty</h4>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <span ng-class="ctrl.classFomValue(userForm.$pristine)">userForm.$pristine = {{userForm.$pristine}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.$dirty)">userForm.$dirty = {{userForm.$dirty}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.$submitted)">userForm.$submitted = {{userForm.$submitted}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.firstName.$pristine)">userForm.firstName.$pristine = {{userForm.firstName.$pristine}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.firstName.$dirty)">userForm.firstName.$dirty = {{userForm.firstName.$dirty}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$pristine)">userForm.lastName.$pristine = {{userForm.lastName.$pristine}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$dirty)">userForm.lastName.$dirty = {{userForm.lastName.$dirty}}</span><br />
+                        </div>
+                    </div>
+                    <div>
+                        Form:
+                        <button class="btn" ng-click="userForm.$setPristine()">setPristine</button>
+                        <button class="btn" ng-click="userForm.$setDirty()">setDirty</button>
+                        <button class="btn" ng-click="userForm.$setSubmitted()">setSubmitted</button>
+                    </div>
+                    <div>
+                        FirstName:
+                        <button class="btn" ng-click="userForm.firstName.$setPristine()">setPristine</button>
+                        <button class="btn" ng-click="userForm.firstName.$setDirty()">setDirty</button>
+                    </div>
+                    <div>
+                        LastName:
+                        <button class="btn" ng-click="userForm.lastName.$setPristine()">setPristine</button>
+                        <button class="btn" ng-click="userForm.lastName.$setDirty()">setDirty</button>
+                    </div>
+                </section>
+                <section class="col-md-4">
+                    <h4>Valid-Invalid</h4>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <span ng-class="ctrl.classFomValue(userForm.$valid)">userForm.$valid = {{userForm.$valid}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.$invalid)">userForm.$invalid = {{userForm.$invalid}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.firstName.$valid)">userForm.firstName.$valid = {{userForm.firstName.$valid}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.firstName.$invalid)">userForm.firstName.$invalid = {{userForm.firstName.$invalid}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$valid)">userForm.lastName.$valid = {{userForm.lastName.$valid}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$invalid)">userForm.lastName.$invalid = {{userForm.lastName.$invalid}}</span>
+                        </div>
+                    </div>
+                    <div>
+                        FirstName:
+                        <button class="btn" ng-click="userForm.firstName.$setValidity('required', true)">setValid</button>
+                        <button class="btn" ng-click="userForm.firstName.$setValidity('required', false)">setInvalid</button>
+                    </div>
+                    <div>
+                        LastName:
+                        <button class="btn" ng-click="userForm.lastName.$setValidity('required', true)">setValid</button>
+                        <button class="btn" ng-click="userForm.lastName.$setValidity('required', false)">setInvalid</button>
+                    </div>
+                </section>
+                <section class="col-md-4">
+                    <h4>Touched-Untouched</h4>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <span ng-class="ctrl.classFomValue(userForm.firstName.$touched)">userForm.firstName.$touched = {{userForm.firstName.$touched}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.firstName.$untouched)">userForm.firstName.$untouched = {{userForm.firstName.$untouched}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$touched)">userForm.lastName.$touched = {{userForm.lastName.$touched}}</span><br />
+                            <span ng-class="ctrl.classFomValue(userForm.lastName.$untouched)">userForm.lastName.$untouched = {{userForm.lastName.$untouched}}</span>
+                        </div>
+                    </div>
+                    <div>
+                        Form:
+                        <button class="btn" ng-click="userForm.$setUntouched()">form setUntouched</button>
+                    </div>
+                    <div>
+                        FirstName:
+                        <button class="btn" ng-click="userForm.firstName.$setUntouched()">setUntouched</button>
+                        <button class="btn" ng-click="userForm.firstName.$setTouched()">setTouched</button>
+                    </div>
+                    <div>
+                        LastName:
+                        <button class="btn" ng-click="userForm.lastName.$setUntouched()">setUntouched</button>
+                        <button class="btn" ng-click="userForm.lastName.$setTouched()">setTouched</button>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script>
+        var app = angular.module('acheve', []);
+        app.controller('ContextController', function () {
+            var vm = this;
+            vm.version = angular.version.full;
+        });
+        app.controller('ExampleController', function () {
+            var vm = this;
+            vm.user = { firstName: 'Hugo', lastName: 'Biarge' };
+            vm.classFomValue = function (value) {
+                return value ? 'true' : 'false';
+            };
+            vm.submit = function (valid, data) {
+                if (valid) {
+                    alert('form submitted!');
+                }
+            };
+        });
+    </script>
+</body>
+</html>

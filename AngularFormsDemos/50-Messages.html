@@ -1,0 +1,118 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Validation messages</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/softStyle.css" rel="stylesheet" />
+</head>
+<body ng-app="acheve">
+    <div class="container">
+        <header class="page-header" ng-controller="ContextController as ctx">
+            <h1>Validation messages <small>angularjs v{{ctx.version}}</small></h1>
+        </header>
+        <section ng-controller="ExampleController as ctrl">
+            <form name="myForm01" novalidate>
+                <fieldset>
+                    <legend>With ng-if/ng-show and $touched</legend>
+                    <div class="form-group">
+                        <label for="colorCode">Color</label>
+                        <input type="text"
+                               name="colorCode"
+                               ng-model="ctrl.data.colorCode"
+                               minlength="6"
+                               required />
+                        <div class="error" ng-if="myForm01.colorCode.$touched">
+                            <div ng-if="myForm01.colorCode.$error.required">Required</div>
+                            <div ng-if="myForm01.colorCode.$error.minlength">Should have min lenght of 6</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" />
+                    </div>
+                </fieldset>
+            </form>
+            <form name="myForm02" novalidate>
+                <fieldset>
+                    <legend>With ng-if/ng-show and $touched & $submitted</legend>
+                    <div class="form-group">
+                        <label for="colorCode">Color</label>
+                        <input type="text"
+                               name="colorCode"
+                               ng-model="ctrl.data.colorCode"
+                               minlength="6"
+                               required />
+                        <div class="error"
+                             ng-if="myForm02.$submitted || myForm02.colorCode.$touched">
+                            <div ng-if="myForm02.colorCode.$error.required">Required</div>
+                            <div ng-if="myForm02.colorCode.$error.minlength">Should have min lenght of 6</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" />
+                    </div>
+                </fieldset>
+            </form>
+            <form name="myForm03" novalidate>
+                <fieldset>
+                    <legend>With ng-messages</legend>
+                    <div class="form-group">
+                        <label for="colorCode">Color</label>
+                        <input type="text"
+                               name="colorCode"
+                               ng-model="ctrl.data.colorCode"
+                               minlength="6"
+                               required />
+                        <div class="error"
+                             ng-messages="myForm03.colorCode.$error"
+                             ng-if="myForm03.$submitted || myForm03.colorCode.$touched">
+                            <div ng-message="required">Required</div>
+                            <div ng-message="minlength">Should have min lenght of 6</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" />
+                    </div>
+                </fieldset>
+            </form>
+            <form name="myForm04" novalidate>
+                <fieldset>
+                    <legend>With ng-messages-include</legend>
+                    <div class="form-group">
+                        <label for="colorCode">Color</label>
+                        <input type="text"
+                               name="colorCode"
+                               ng-model="ctrl.data.colorCode"
+                               minlength="6"
+                               required />
+                        <div class="error"
+                             ng-messages="myForm04.colorCode.$error"
+                             ng-if="myForm04.$submitted || myForm04.colorCode.$touched"
+                             ng-messages-include="Messages.html">
+                            <!-- overrides the min message from the include -->
+                            <span ng-message="minlength">Should have min lenght of 6</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" />
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.min.js"></script>
+    <script>
+        var app = angular.module('acheve', ['ngMessages']);
+        app.controller('ContextController', function () {
+            var vm = this;
+            vm.version = angular.version.full;
+        });
+        app.controller('ExampleController', function () {
+            var vm = this;
+            vm.data = {
+                colorCode: ''
+            };
+        });
+    </script>
+</body>
+</html>

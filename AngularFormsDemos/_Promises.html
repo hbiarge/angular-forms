@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Promises</title>
+</head>
+<body ng-app="acheve">
+    <div ng-controller="ExampleController">
+        <pre>user.name = <span ng-bind="user.name"></span></pre>
+        <pre>user.greet = <span ng-bind="user.message"></span></pre>
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script>
+        angular.module('acheve', [])
+            .factory('myService', ['$rootScope', '$q', function ($rootScope, $q) {
+
+                function okToGreet(name) {
+                    return name === 'Hugo';
+                };
+
+                function asyncGreet(name) {
+                    var deferred = $q.defer();
+
+                    setTimeout(function () {
+                        deferred.notify('About to greet ' + name + '.');
+
+                        if (okToGreet(name)) {
+                            deferred.resolve('Hello, ' + name + '!');
+                        } else {
+                            deferred.reject('Greeting ' + name + ' is not allowed.');
+                        }
+                    }, 1000);
+
+                    return deferred.promise;
+                }
+
+                return {
+                    asyncGreet: asyncGreet
+                }
+
+            }])
+            .controller('ExampleController', ['$scope', 'myService', function ($scope, myService) {
+                $scope.user = {
+                    name: 'Alfredo',
+                    message: ''
+                };
+
+                var promise = myService.asyncGreet($scope.user.name);
+
+                promise.then(
+                    function success(greeting) {
+                        alert('Success: ' + greeting);
+                        $scope.user.message = greeting;
+                    },
+                    function error(reason) {
+                        alert('Failed: ' + reason);
+                        $scope.user.message = 'Not allowed: ' + reason;
+                    },
+                    function notify(update) {
+                        alert('Got notification: ' + update);
+                    });
+
+
+            }]);
+    </script>
+</body>
+</html>

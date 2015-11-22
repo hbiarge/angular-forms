@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Async validator</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/softStyle.css" rel="stylesheet" />
+</head>
+<body ng-app="acheve">
+    <div class="container">
+        <header class="page-header" ng-controller="ContextController as ctx">
+            <h1>Async validator <small>angularjs v{{ctx.version}}</small></h1>
+        </header>
+        <section ng-controller="ProfileController as profile">
+            {{ profile.message }}
+            <form name="profileForm" ng-submit="profile.submit(profileForm.$valid)" novalidate>
+                <fieldset>
+                    <legend>Profile</legend>
+                    <div class="form-group">
+                        <label for="favoriteNumber">Favorite number</label>
+                        <div class="input-group">
+                            <input type="number"
+                                   name="favoriteNumber"
+                                   class="form-control"
+                                   ng-model="profile.number"
+                                   ng-model-options="{allowInvalid: false}"
+                                   required min="3" odd prime />
+                            <div class=" input-group-addon">
+                                <span ng-if="profileForm.favoriteNumber.$pending">Calculating....</span>
+                            </div>
+                        </div>
+                        <pre>number = <span ng-bind="profile.number | json"></span></pre>
+                    </div>
+
+                </fieldset>
+                <input type="submit" value="Save" />
+            </form>
+        </section>
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.min.js"></script>
+    <script>
+
+        var app = angular.module('acheve', ['ngMessages']);
+        app.directive('odd', function () {
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                link: function (scope, element, attributes, ngModel) {
+                    ngModel.$validators.odd = function (modelValue) {
+                        return modelValue % 2 === 1;
+                    };
+                }
+            };
+        });
+        app.directive('prime', function ($q, $timeout) {
+
+            var isPrime = function (n) {
+                if (n < 2) {
+                    return false;
+                }
+
+                for (var i = 2; i <= Math.sqrt(n) ; i++) {
+                    if (n % i == 0) {
+                        return false;
+                    }
+                }
+                return true;
+            };
+
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                link: function (scope, element, attributes, ngModel) {
+                    ngModel.$asyncValidators.prime = function (modelValue) {
+                        var defer = $q.defer();
+                        $timeout(function () {
+                            if (isPrime(modelValue)) {
+                                defer.resolve();
+                            } else {
+                                defer.reject();
+                            }
+                        }, 2000);
+                        return defer.promise;
+                    }
+                }
+            };
+        });
+        app.controller('ContextController', function () {
+            var vm = this;
+            vm.version = angular.version.full;
+        });
+        app.controller('ProfileController', function () {
+            var model = this;
+
+            model.message = '';
+            model.submit = function (valid) {
+                if (valid) {
+                    model.message = 'Your new number is ' + model.number;
+                } else {
+                    model.message = 'Needs fixing!';
+                }
+            };
+        });
+    </script>
+</body>
+</html>

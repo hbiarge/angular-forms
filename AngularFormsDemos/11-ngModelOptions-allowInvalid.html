@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ngModelOptions - allowInvalid</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body ng-app="acheve">
+    <div class="container">
+        <header class="page-header" ng-controller="ContextController as ctx">
+            <h1>ngModelOptions - allowInvalid <small>angularjs v{{ctx.version}}</small></h1>
+        </header>
+        <section ng-controller="ExampleController as ctrl">
+            <form name="rangeForm" novalidate>
+                <fieldset>
+                    <legend>Select the aggregation range</legend>
+                    <div class="form-group">
+                        <label for="rangeValue">Range</label>
+                        <input type="number"
+                               name="rangeValue"
+                               ng-model="ctrl.range.value"
+                               ng-model-options="{ allowInvalid: false }"
+                               min="{{ctrl.range.unit.min}}"
+                               max="{{ctrl.range.unit.max}}" />
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   name="rangeUnitDays"
+                                   ng-model="ctrl.range.unit"
+                                   ng-value="ctrl.units.days"
+                                   ng-change="ctrl.updateRangeValueValidation()" /> Days
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   name="rangeUnitMonth"
+                                   ng-model="ctrl.range.unit"
+                                   ng-value="ctrl.units.months"
+                                   ng-change="ctrl.updateRangeValueValidation()" /> Months
+                        </label>
+                    </div>
+                    <pre>range = <span ng-bind="ctrl.range | json"></span></pre>
+
+                    <input type="submit" ng-disabled="!rangeForm.$valid" />
+
+                </fieldset>
+            </form>
+        </section>
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script>
+        var app = angular.module('acheve', []);
+        app.controller('ContextController', function () {
+            var vm = this;
+            vm.version = angular.version.full;
+        });
+        app.controller('ExampleController', function () {
+            var vm = this;
+
+            vm.units = {
+                days: { value: 1, min: 1, max: 31 },
+                months: { value: 2, min: 1, max: 12 }
+            };
+
+            vm.range = {
+                value: 12,
+                unit: vm.units.months
+            };
+
+            vm.updateRangeValueValidation = function () {
+                if (vm.range.value < 1)
+                    vm.range.value = 1;
+
+                if (vm.range.unit === vm.units.days) {
+                    if (vm.range.value > vm.units.days.max)
+                        vm.range.value = vm.units.days.max;
+
+                    vm.range.unit.max = vm.units.days.max;
+                } else {
+                    if (vm.range.value > vm.units.months.max)
+                        vm.range.value = vm.units.months.max;
+
+                    vm.range.unit.max = vm.units.months.max;
+                }
+            };
+
+        });
+    </script>
+</body>
+</html>

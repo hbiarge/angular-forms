@@ -1,0 +1,38 @@
+﻿.true {
+    color: green;
+}
+
+.false {
+    color: red;
+}
+
+.ng-valid {
+    border: green 2px solid;
+}
+
+.ng-invalid {
+    border: red 2px solid;
+}
+
+.ng-pristine {
+    background: rgb(195, 254, 195);
+}
+
+.ng-dirty {
+    background: rgb(218, 185, 185);
+}
+
+.ng-touched {
+    color: red;
+}
+
+.ng-untouched {
+    color: black;
+}
+
+.messages {
+    font-size: smaller;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    color: red;
+}

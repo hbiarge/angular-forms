@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>CompareTo validator</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/softStyle.css" rel="stylesheet" />
+</head>
+<body ng-app="acheve" class="container">
+    <div class="container">
+        <header class="page-header" ng-controller="ContextController as ctx">
+            <h1>CompareTo validator <small>angularjs v{{ctx.version}}</small></h1>
+        </header>
+        <section ng-controller="RegistrationController as registration">
+            <h3>{{ registration.message }}</h3>
+            <form name="registrationForm" ng-submit="registration.submit(registrationForm.$valid)" novalidate>
+                <fieldset>
+                    <legend>Registration</legend>
+                    <div class="form-group">
+                        <label>User Name</label>
+                        <input type="text"
+                               name="username"
+                               class="form-control"
+                               ng-model="registration.user.username"
+                               required />
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password"
+                               name="password"
+                               class="form-control"
+                               ng-model="registration.user.password"
+                               required />
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" name="confirmPassword"
+                               class="form-control"
+                               ng-model="registration.user.confirmPassword"
+                               required
+                               compare-to="registration.user.password" />
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Register!</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script>
+        var app = angular.module('acheve', []);
+        app.directive('compareTo', function () {
+            return {
+                retrict: 'A',
+                require: 'ngModel',
+                scope: {
+                    otherModelValue: '=compareTo'
+                },
+                link: function (scope, element, attributes, ngModel) {
+
+                    ngModel.$validators.compareTo = function (modelValue) {
+                        return modelValue == scope.otherModelValue;
+                    };
+
+                    scope.$watch('otherModelValue', function () {
+                        ngModel.$validate();
+                    });
+                }
+            };
+        });
+        app.controller('ContextController', function () {
+            var vm = this;
+            vm.version = angular.version.full;
+        });
+        app.controller('RegistrationController', function () {
+            var vm = this;
+
+            vm.message = '';
+
+            vm.user = {
+                username: '',
+                password: '',
+                confirmPassword: ''
+            };
+
+            vm.submit = function (isValid) {
+                if (isValid) {
+                    vm.message = 'Submitted ' + vm.user.username;
+                } else {
+                    vm.message = 'There are still invalid fields below';
+                }
+            };
+
+        });
+    </script>
+</body>
+</html>

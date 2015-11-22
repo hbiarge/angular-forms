@@ -1,0 +1,97 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Basic form</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body ng-app="acheve">
+    <div class="container">
+        <header class="page-header" ng-controller="ContextController as ctx">
+            <h1>Basic form <small>angularjs v{{ctx.version}}</small></h1>
+        </header>
+        <section ng-controller="ExampleController as ctrl">
+            <form name="userForm" ng-submit="ctrl.update(ctrl.user)" novalidate>
+                <fieldset>
+                    <legend>User info</legend>
+                    <div class="form-group">
+                        <label for="userName">Name</label>
+                        <input type="text"
+                               name="userName"
+                               class="form-control"
+                               ng-model="ctrl.user.name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">E-mail</label>
+                        <input type="text"
+                               name="userEmail"
+                               class="form-control"
+                               ng-model="ctrl.user.email" />
+                    </div>
+                    <div class="form-group">
+                        Gender:
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   name="userMale"
+                                   ng-model="ctrl.user.gender"
+                                   value="male" /> Male
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio"
+                                   name="userFemale"
+                                   ng-model="ctrl.user.gender"
+                                   value="female" /> Female
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Country</label>
+                        <select name="userCountry"
+                                class="form-control"
+                                ng-model="ctrl.user.country"
+                                ng-options="country.code as country.name for country in ctrl.countries"></select>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <button>SUBMIT</button>
+                    <button ng-click="ctrl.reset()">RESET</button>
+                </div>
+            </form>
+            <pre>form = {{ctrl.user | json}}</pre>
+            <pre>master = {{ctrl.master | json}}</pre>
+        </section>
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script>
+        var app = angular.module('acheve', []);
+        app.controller('ContextController', function () {
+            var vm = this;
+            vm.version = angular.version.full;
+        });
+        app.controller('ExampleController', function () {
+            var vm = this;
+            vm.user = {
+                name: '',
+                email: '',
+                gender: '',
+                country: ''
+            };
+            vm.master = angular.copy(vm.user);
+
+            vm.countries = [
+                { code: 'ES', name: 'Spain' },
+                { code: 'FR', name: 'France' },
+                { code: 'DE', name: 'Germany' },
+                { code: 'US', name: 'United States' }
+            ];
+
+            vm.update = function (user) {
+                vm.master = angular.copy(user);
+                alert('submitted!');
+            };
+
+            vm.reset = function () {
+                vm.user = angular.copy(vm.master);
+            };
+        });
+    </script>
+</body>
+</html>

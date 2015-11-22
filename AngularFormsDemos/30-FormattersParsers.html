@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Formatters and parsers</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body ng-app="acheve">
+    <div class="container">
+        <header class="page-header" ng-controller="ContextController as ctx">
+            <h1>Formatters and parsers <small>angularjs v{{ctx.version}}</small></h1>
+        </header>
+        <section ng-controller="ProfileController as profile">
+            <form name="profileForm" novalidate>
+                <fieldset>
+                    <legend>Custom formatter and parser</legend>
+                    <div class="form-group">
+                        <label for="favoriteColors">Colors</label>
+                        <input type="text"
+                               name="favoriteColors"
+                               class="form-control"
+                               ng-model="profile.colors"
+                               ng-model-options="{ updateOn: 'blur' }"
+                               list-to-array />
+                    </div>
+                    <pre>profile = <span ng-bind="profile | json"></span></pre>
+                </fieldset>
+            </form>
+        </section>
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script>
+
+        var app = angular.module('acheve', []);
+        app.directive('listToArray', function() {
+
+            function modelToView(modelValue) {
+                if (modelValue) {
+                    return modelValue.join(', ');
+                }
+
+                return undefined;
+            }
+
+            function viewToModel(viewValue) {
+                var splitted = viewValue.split(',');
+
+                if (splitted.length === 1) {
+                    var trimmed = splitted[0].trim();
+                    if (trimmed === '') {
+                        return [];
+                    }
+                }
+
+                return splitted.map(function(item) {
+                    return item.trim();
+                });
+            }
+
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                link: function(scope, element, attributes, ngModel) {
+
+                    //             VIEW--------------MODEL
+                    // Formatters  [0.....<--------.....n] -> array.push to be the first invoked
+                    // Parsers     [0.....-------->.....n] -> array.unshift to be the first invoked
+
+                    // executed in reverse array order
+                    ngModel.$formatters.push(modelToView);
+                    // executed in array order
+                    ngModel.$parsers.unshift(viewToModel);
+                }
+            };
+        });
+        app.controller('ContextController', function () {
+            var vm = this;
+            vm.version = angular.version.full;
+        });
+        app.controller('ProfileController', function () {
+            var vm = this;
+            vm.colors = ['red', 'green'];
+        });
+    </script>
+</body>
+</html>

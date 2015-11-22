@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ngModelOptions</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body ng-app="acheve">
+    <div class="container">
+        <header class="page-header" ng-controller="ContextController as ctx">
+            <h1>ngModelOptions <small>angularjs v{{ctx.version}}</small></h1>
+        </header>
+        <section class="container" ng-controller="ExampleController as ctrl">
+            <form name="userForm" novalidate>
+                <fieldset>
+                    <div class="form-group">
+                        <label for="userName">Name (updateOn)</label>
+                        <input type="text"
+                               id="userName"
+                               name="userName"
+                               class="form-control"
+                               ng-model="ctrl.user.name"
+                               ng-model-options="{ updateOn: 'blur' }"
+                               ng-keyup="ctrl.cancel($event)" />
+                        <pre>user.name = <span ng-bind="ctrl.user.name"></span></pre>
+                    </div>
+                    <div class="form-group">
+                        <label for="userData">Other data (debounce)</label>
+                        <input type="text"
+                               id="userData"
+                               name="userData"
+                               class="form-control"
+                               ng-model="ctrl.user.data"
+                               ng-model-options="{ debounce: 2000 }"/>
+                        <pre>user.data = <span ng-bind="ctrl.user.data"></span></pre>
+                    </div>
+                    <div class="form-group">
+                        <label for="userNumber">Number (allowInvalid)</label>
+                        <input type="number"
+                               id="userNumber"
+                               name="userNumber"
+                               class="form-control"
+                               ng-model="ctrl.user.number"
+                               ng-model-options="{ allowInvalid: false }"
+                               min="3" />
+                        <pre>user.number = <span ng-bind="ctrl.user.number"></span></pre>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script>
+        var app = angular.module('acheve', []);
+        app.controller('ContextController', function () {
+            var vm = this;
+            vm.version = angular.version.full;
+        });
+        app.controller('ExampleController', ['$scope', function ($scope) {
+            var vm = this;
+            vm.version = angular.version;
+            vm.user = {
+                name: 'say',
+                data: 'hello!',
+                number: 3
+            };
+            
+            vm.cancel = function (e) {
+                if (e.keyCode === 27) {
+                    $scope.userForm.userName.$rollbackViewValue();
+                }
+            };
+        }]);
+    </script>
+</body>
+</html>
