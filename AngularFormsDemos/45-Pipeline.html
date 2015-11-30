@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>ng-model pipeline</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/softStyle.css" rel="stylesheet" />
+</head>
+<body ng-app="acheve">
+    <div class="container">
+        <header class="page-header" ng-controller="ContextController as ctx">
+            <h1>ng-model pipeline <small>angularjs v{{ctx.version}}</small>
+            </h1>
+        </header>
+        <section ng-controller="ExampleController as ex">
+            <form name="form" novalidate>
+                <input type="text" name="foo" ng-model="ex.foo" test>
+            </form>
+            <button ng-click="ex.changeModel()">Change Model</button>
+            <pre>foo = <span ng-bind="ex.foo | json"></span></pre>
+            <pre>Valid = <span ng-bind="!form.foo.$error.test | json"></span></pre>
+        </section>
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.min.js"></script>
+    <script>
+
+        var app = angular.module('acheve', ['ngMessages']);
+        app.directive('test', function () {
+            return {
+                require: 'ngModel',
+                link: function ($scope, $elememt, $attrs, $ngModel) {
+
+                    $ngModel.$formatters.unshift(function (modelVal) {
+                        console.log('-- Formatter --', JSON.stringify({
+                            modelVal: modelVal,
+                            ngModel: {
+                                viewVal: $ngModel.$viewValue,
+                                modelVal: $ngModel.$modelValue
+                            }
+                        }, null, 2));
+                        return modelVal;
+                    });
+
+                    $ngModel.$validators.test = function (modelVal, viewVal) {
+                        console.log('-- Validator --', JSON.stringify({
+                            modelVal: modelVal,
+                            viewVal: viewVal,
+                            ngModel: {
+                                viewVal: $ngModel.$viewValue,
+                                modelVal: $ngModel.$modelValue
+                            }
+                        }, null, 2));
+                        return true;
+                    };
+
+                    $ngModel.$parsers.unshift(function (inputVal) {
+                        console.log('------ VIEW VALUE CHANGED (user typed in input)------');
+                        console.log('-- Parser --', JSON.stringify({
+                            inputVal: inputVal,
+                            ngModel: {
+                                viewVal: $ngModel.$viewValue,
+                                modelVal: $ngModel.$modelValue
+                            }
+                        }, null, 2));
+                        return inputVal;
+                    });
+
+                    $ngModel.$viewChangeListeners.push(function () {
+                        console.log('-- viewChangeListener --', JSON.stringify({
+                            ngModel: {
+                                viewVal: $ngModel.$viewValue,
+                                modelVal: $ngModel.$modelValue
+                            }
+                        }, null, 2));
+                    });
+
+                    // same as $watch('foo')
+                    $scope.$watch(
+                        function () {
+                            return $ngModel.$viewValue;
+                        }, function (newVal) {
+                            console.log('-- $watch "foo" --', JSON.stringify({
+                                newVal: newVal,
+                                ngModel: {
+                                    viewVal: $ngModel.$viewValue,
+                                    modelVal: $ngModel.$modelValue
+                                }
+                            }, null, 2));
+                        });
+
+                }
+            };
+        });
+        app.controller('ContextController', function () {
+            var vm = this;
+            vm.version = angular.version.full;
+        });
+        app.controller('ExampleController', function () {
+            var model = this;
+
+            model.foo = '123';
+            console.log('------ MODEL CHANGED ($scope.foo = "123") ------');
+
+            model.changeModel = function () {
+                model.foo = 'abc';
+                console.log('------ MODEL CHANGED ($scope.foo = "abc") ------');
+            };
+        });
+    </script>
+</body>
+</html>

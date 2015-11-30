@@ -58,6 +58,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="45-Pipeline.html" />
     <Content Include="50-Messages.html" />
     <Content Include="00-BasicForm.html" />
     <Content Include="01-FormAndModelStates.html" />
