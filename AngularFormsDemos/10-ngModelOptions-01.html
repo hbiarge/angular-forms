@@ -19,7 +19,8 @@
                                name="userName"
                                class="form-control"
                                ng-model="ctrl.user.name"
-                               ng-model-options="{ updateOn: 'blur' }" />
+                               ng-model-options="{ updateOn: 'blur' }"
+                               autocomplete="off" />
                         <pre>user.name = <span ng-bind="ctrl.user.name"></span></pre>
                     </div>
                     <div class="form-group">
@@ -30,6 +31,7 @@
                                class="form-control"
                                ng-model="ctrl.user.data"
                                ng-model-options="{ debounce: 2000 }"
+                               autocomplete="off"
                                ng-keyup="ctrl.cancel($event)" />
                         <pre>user.data = <span ng-bind="ctrl.user.data"></span></pre>
                     </div>
@@ -41,6 +43,7 @@
                                class="form-control"
                                ng-model="ctrl.user.number"
                                ng-model-options="{ allowInvalid: false }"
+                               autocomplete="off"
                                min="3" />
                         <pre>user.number = <span ng-bind="ctrl.user.number"></span></pre>
                     </div>

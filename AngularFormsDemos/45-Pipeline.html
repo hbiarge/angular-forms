@@ -8,12 +8,13 @@
 <body ng-app="acheve">
     <div class="container">
         <header class="page-header" ng-controller="ContextController as ctx">
-            <h1>ng-model pipeline <small>angularjs v{{ctx.version}}</small>
+            <h1>
+                ng-model pipeline <small>angularjs v{{ctx.version}}</small>
             </h1>
         </header>
         <section ng-controller="ExampleController as ex">
             <form name="form" novalidate>
-                <input type="text" name="foo" ng-model="ex.foo" test>
+                <input type="text" name="foo" ng-model="ex.foo" autocomplete="off" test>
             </form>
             <button ng-click="ex.changeModel()">Change Model</button>
             <pre>foo = <span ng-bind="ex.foo | json"></span></pre>

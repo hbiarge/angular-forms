@@ -23,6 +23,7 @@
                                class="form-control"
                                ng-model="profile.number"
                                ng-model-options="{allowInvalid: false}"
+                               autocomplete="off"
                                required min="3" odd />
                         <pre>number = <span ng-bind="profile.number | json"></span></pre>
                         <pre>error = <span ng-bind="profileForm.favoriteNumber.$error | json"></span></pre>

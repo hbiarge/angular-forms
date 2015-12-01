@@ -13,6 +13,10 @@
         angular.module('acheve', [])
             .factory('myService', ['$rootScope', '$q', function ($rootScope, $q) {
 
+                return {
+                    asyncGreet: asyncGreet
+                }
+
                 function okToGreet(name) {
                     return name === 'Hugo';
                 };
@@ -33,11 +37,14 @@
                     return deferred.promise;
                 }
 
-                return {
-                    asyncGreet: asyncGreet
-                }
-
             }])
+            .service('myService', function () {
+                this.delay = delay;
+
+                function delay() {
+
+                }
+            })
             .controller('ExampleController', ['$scope', 'myService', function ($scope, myService) {
                 $scope.user = {
                     name: 'Alfredo',
@@ -59,6 +66,17 @@
                         alert('Got notification: ' + update);
                     });
 
+                var promise1 = $timeout(function () {
+                    console.log('promise1');
+                }, 1000);
+                var promise2 = $timeout(function () {
+                    console.log('promise2');
+                }, 1000);
+
+                $q.all([promise1, promise2])
+                    .then(function () {
+                        console.log('All resolved');
+                    });
 
             }]);
     </script>

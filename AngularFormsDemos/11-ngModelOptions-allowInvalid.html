@@ -20,8 +20,9 @@
                                name="rangeValue"
                                ng-model="ctrl.range.value"
                                ng-model-options="{ allowInvalid: true }"
-                               min="{{ctrl.range.unit.min}}"
-                               max="{{ctrl.range.unit.max}}" />
+                               autocomplete="off"
+                               ng-min="{{ctrl.range.unit.min}}"
+                               ng-max="{{ctrl.range.unit.max}}" />
                         <label class="radio-inline">
                             <input type="radio"
                                    name="rangeUnitDays"
