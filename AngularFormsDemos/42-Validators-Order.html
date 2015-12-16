@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Validator execution order</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/softStyle.css" rel="stylesheet" />
+</head>
+<body ng-app="acheve">
+    <div class="container">
+        <header class="page-header" ng-controller="ContextController as ctx">
+            <h1>
+                Odd validator <small>angularjs v{{ctx.version}}</small>
+                <small class="pull-right">Hugo Biarge (@hbiarge)</small>
+            </h1>
+        </header>
+        <section ng-controller="ProfileController as profile">
+            {{ profile.message }}
+            <form name="profileForm" ng-submit="profile.submit(profileForm.$valid)" novalidate>
+                <fieldset>
+                    <legend>Profile</legend>
+                    <div class="form-group">
+                        <label for="favoriteNumber">Favorite number</label>
+                        <input type="number"
+                               id="favoriteNumber"
+                               name="favoriteNumber"
+                               class="form-control"
+                               ng-model="profile.number"
+                               ng-model-options="{allowInvalid: false}"
+                               autocomplete="off"
+                               required buzz fizz />
+                        <pre>number = <span ng-bind="profile.number | json"></span></pre>
+                        <pre>error = <span ng-bind="profileForm.favoriteNumber.$error | json"></span></pre>
+                    </div>
+                </fieldset>
+                <input type="submit" value="Save" />
+
+            </form>
+        </section>
+    </div>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script>
+        var app = angular.module('acheve', []);
+        // Validators order depends on "for in" browser iteration order over $validator object (is no guaranteed)
+        app.directive('buzz', function () {
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                link: function (scope, element, attributes, ngModel) {
+                    ngModel.$validators.buzz = function (modelValue) {
+                        return modelValue % 5 === 0;
+                    };
+                }
+            };
+        });
+        app.directive('fizz', function () {
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                link: function (scope, element, attributes, ngModel) {
+                    ngModel.$validators.fizz = function (modelValue) {
+                        return modelValue % 3 === 0;
+                    };
+                }
+            };
+        });
+        app.controller('ContextController', function () {
+            var vm = this;
+            vm.version = angular.version.full;
+        });
+        app.controller('ProfileController', function () {
+            var vm = this;
+
+            vm.number = 0;
+            vm.message = '';
+            vm.submit = function (valid) {
+                if (valid) {
+                    vm.message = 'Your new number is ' + vm.number;
+                } else {
+                    vm.message = 'Ooops!! invalid number';
+                }
+            };
+        });
+    </script>
+</body>
+</html>

@@ -58,7 +58,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="45-Pipeline.html" />
+    <Content Include="42-Validators-Order.html" />
+    <Content Include="49-Pipeline.html" />
     <Content Include="50-Messages.html" />
     <Content Include="00-BasicForm.html" />
     <Content Include="01-FormAndModelStates.html" />
@@ -213,9 +214,9 @@
     <Content Include="10-ngModelOptions-01.html" />
     <Content Include="11-ngModelOptions-allowInvalid.html" />
     <Content Include="30-FormattersParsers.html" />
-    <Content Include="40-Validators01.html" />
-    <Content Include="41-Validators02.html" />
-    <Content Include="42-AsyncValidators.html" />
+    <Content Include="40-Validators-Simple.html" />
+    <Content Include="41-Validators-Dependent.html" />
+    <Content Include="45-AsyncValidators.html" />
     <Content Include="Messages.html" />
     <Content Include="Web.config" />
   </ItemGroup>
